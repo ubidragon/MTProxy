@@ -1,0 +1,24 @@
+services:
+  mtproto-proxy:
+    image: ubidragon/mtproxy:latest
+#    build:
+#      context: .
+#      args:
+#        MTPROTO_REPO_URL: https://github.com/GetPageSpeed/MTProxy
+#        DOMAIN: proxy.olimpia.family
+    container_name: mtproto-proxy
+    hostname: mtproto-proxy
+#    entrypoint: tail -f /dev/null
+    volumes:
+      - ./entrypoint.sh:/entrypoint.sh
+      - ./volumes/config:/data
+    restart: unless-stopped
+    ports:
+#      - 0.0.0.0:28888:8888
+      - 0.0.0.0:28443:443/udp
+      - 0.0.0.0:28443:443/tcp
+    environment:
+      - DOMAIN=proxy.olimpia.family
+      - SECRET=8d11ff34250a579521026570b369493f
+      - WORKERS=1
+#      - MTPROTO_REPO_URL
